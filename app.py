@@ -19,7 +19,7 @@ from openpyxl.utils import get_column_letter
 #  CONFIG
 # ─────────────────────────────────────────────────────────────────
 SHEET_ID   = "1lD6YrCoSbA5RI79PvtG2WtWTVd0q83xvPmESLDMcu-0"
-FORM_SHEET = "Form Responses 1"
+FORM_SHEET = "การตอบแบบฟอร์ม 1"
 
 BRANCH_MAP = {
     "BNA": 3,  "BNB": 4,  "BNC": 7,  "BND": 5,  "CJH": 10,
