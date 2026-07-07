@@ -117,13 +117,23 @@ def _get_client():
         "https://www.googleapis.com/auth/drive.readonly",
     ]
     try:
-        info  = dict(st.secrets["gcp_service_account"])
-        info["private_key"] = info["private_key"].replace("\\n", "\n")
+        info = dict(st.secrets["gcp_service_account"])
+        key  = info.get("private_key", "")
+        # Normalize: replace literal \n with real newline
+        key  = key.replace("\\n", "\n")
+        # Rebuild PEM with proper 64-char lines to fix any formatting issues
+        lines = [l.strip() for l in key.split("\n") if l.strip()]
+        if len(lines) >= 3:
+            header  = lines[0]
+            footer  = lines[-1]
+            b64     = "".join(lines[1:-1])
+            b64_fmt = "\n".join(b64[i:i+64] for i in range(0, len(b64), 64))
+            key     = f"{header}\n{b64_fmt}\n{footer}\n"
+        info["private_key"] = key
         creds = Credentials.from_service_account_info(info, scopes=scopes)
         return gspread.authorize(creds), None
     except Exception as e:
         return None, str(e)
-
 
 @st.cache_data(ttl=300, show_spinner=False)
 def load_sheet() -> tuple[list, str | None]:
