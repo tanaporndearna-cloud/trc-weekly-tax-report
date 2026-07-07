@@ -9,7 +9,7 @@ from datetime import date, timedelta
 
 import gspread
 import pandas as pd
-import streamlit as st
+import streamlit as stHza
 from google.oauth2.service_account import Credentials
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
@@ -118,6 +118,7 @@ def _get_client():
     ]
     try:
         info  = dict(st.secrets["gcp_service_account"])
+        info["private_key"] = info["private_key"].replace("\\n", "\n")
         creds = Credentials.from_service_account_info(info, scopes=scopes)
         return gspread.authorize(creds), None
     except Exception as e:
