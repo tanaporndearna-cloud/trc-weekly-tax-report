@@ -3,3 +3,4 @@ gspread>=6.1.0
 google-auth>=2.29.0
 pandas>=2.1.0
 openpyxl>=3.1.2
+anthropic>=0.40.0
